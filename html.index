@@ -1,0 +1,179 @@
+<!DOCTYPE html>More actions
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Advanced Web Development</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: #f4f4f4;
+      color: #333;
+    }
+
+    header {
+      background-color: #0066cc;
+      color: white;
+      padding: 1rem;
+      text-align: center;
+    }
+
+    section {
+      padding: 20px;
+      max-width: 800px;
+      margin: auto;
+      background: white;
+      border-radius: 8px;
+      margin-top: 20px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1rem;
+    }
+
+    .quiz-question {
+      margin: 20px 0;
+    }
+
+    .quiz-option {
+      display: block;
+      margin: 8px 0;
+    }
+
+    .quiz-result {
+      font-weight: bold;
+      color: green;
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    button {
+      padding: 10px 20px;
+      background-color: #28a745;
+      border: none;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    .joke-box {
+      background-color: #eee;
+      padding: 20px;
+      border-radius: 5px;
+      font-style: italic;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        font-size: 16px;
+      }
+      header {
+        font-size: 18px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      body {
+        font-size: 14px;
+        padding: 10px;
+      }
+
+      section {
+        margin: 10px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>Advanced Web Development Task</h1>
+  </header>
+
+  <!-- Responsive Layout Section -->
+  <section>
+    <h2>Responsive Layout Demo</h2>
+    <p>This layout adjusts text and padding based on your screen size using media queries. Try resizing the browser window!</p>
+  </section>
+
+  <!-- Interactive Quiz Section -->
+  <section id="quiz">
+    <h2>Simple JavaScript Quiz</h2>
+
+    <div class="quiz-question">
+      <p>1. What does HTML stand for?</p>
+      <label class="quiz-option"><input type="radio" name="q1" value="a"> Hyper Text Markup Language</label>
+      <label class="quiz-option"><input type="radio" name="q1" value="b"> High Text Machine Language</label>
+      <label class="quiz-option"><input type="radio" name="q1" value="c"> Home Tool Markup Language</label>
+    </div>
+
+    <div class="quiz-question">
+      <p>2. What is the correct way to link a CSS file?</p>
+      <label class="quiz-option"><input type="radio" name="q2" value="a"> &lt;css href="style.css"&gt;</label>
+      <label class="quiz-option"><input type="radio" name="q2" value="b"> &lt;link rel="stylesheet" href="style.css"&gt;</label>
+      <label class="quiz-option"><input type="radio" name="q2" value="c"> &lt;style src="style.css"&gt;</label>
+    </div>
+
+    <div class="quiz-question">
+      <p>3. Which of the following is a JavaScript data type?</p>
+      <label class="quiz-option"><input type="radio" name="q3" value="a"> Float</label>
+      <label class="quiz-option"><input type="radio" name="q3" value="b"> Integer</label>
+      <label class="quiz-option"><input type="radio" name="q3" value="c"> Boolean</label>
+    </div>
+
+    <button onclick="checkAnswers()">Submit Answers</button>
+    <p class="quiz-result" id="quizResult"></p>
+  </section>
+
+  <!-- API Fetch Section -->
+  <section>
+    <h2>Random Joke (via API)</h2>
+    <div class="joke-box" id="joke">Click the button to load a joke...</div>
+    <button onclick="fetchJoke()">Get New Joke</button>
+  </section>
+
+  <script>
+    // Quiz Validation
+    function checkAnswers() {
+      const answers = {
+        q1: "a",
+        q2: "b",
+        q3: "c"
+      };
+
+      let score = 0;
+      let total = Object.keys(answers).length;
+
+      for (let q in answers) {
+        const selected = document.querySelector(`input[name="${q}"]:checked`);
+        if (selected && selected.value === answers[q]) {
+          score++;
+        }
+      }
+
+      const result = document.getElementById("quizResult");
+      result.textContent = `You got ${score} out of ${total} correct.`;
+      result.style.color = score === total ? "green" : "orange";
+    }
+
+    // Fetch API Joke
+    async function fetchJoke() {
+      const jokeDiv = document.getElementById('joke');
+      try {
+        const res = await fetch("https://icanhazdadjoke.com/", {
+          headers: { Accept: "application/json" }
+        });
+        const data = await res.json();
+        jokeDiv.textContent = data.joke;
+      } catch (error) {
+        jokeDiv.textContent = "Failed to fetch joke. Please try again later.";
+      }
+    }
+  </script>
+</body>
+</html>
